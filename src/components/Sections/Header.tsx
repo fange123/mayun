@@ -3,18 +3,16 @@ import {Bars3BottomRightIcon} from '@heroicons/react/24/outline';
 import classNames from 'classnames';
 import Link from 'next/link';
 import {FC, Fragment, memo, useCallback, useMemo, useState} from 'react';
-
-import {SectionId} from '../../data/data';
+import img from '../../images/home.png';
+import {SectionId, SectionIdMap} from '../../data/data';
 import {useNavObserver} from '../../hooks/useNavObserver';
+import Image from 'next/image';
 
 export const headerID = 'headerNav';
 
 const Header: FC = memo(() => {
   const [currentSection, setCurrentSection] = useState<SectionId | null>(null);
-  const navSections = useMemo(
-    () => [SectionId.About, SectionId.Resume, SectionId.Portfolio, SectionId.Testimonials, SectionId.Contact],
-    [],
-  );
+  const navSections = useMemo(() => [SectionId.Hero, SectionId.About, SectionId.Buy, SectionId.Token], []);
 
   const intersectionHandler = useCallback((section: SectionId | null) => {
     section && setCurrentSection(section);
@@ -38,7 +36,12 @@ const DesktopNav: FC<{navSections: SectionId[]; currentSection: SectionId | null
     const inactiveClass = classNames(baseClass, 'text-neutral-100');
     return (
       <header className="fixed top-0 z-50 hidden w-full bg-neutral-900/50 p-4 backdrop-blur sm:block" id={headerID}>
-        <nav className="flex justify-center gap-x-8">
+        <nav className="gap-x-24 flex justify-center lg:items-center">
+          <h1 className="inline-block">
+            <Link href="#home">
+              <Image src={img} alt="" className="w-12" />
+            </Link>
+          </h1>
           {navSections.map(section => (
             <NavItem
               activeClass={activeClass}
@@ -68,13 +71,16 @@ const MobileNav: FC<{navSections: SectionId[]; currentSection: SectionId | null}
     const inactiveClass = classNames(baseClass, 'text-neutral-200 font-medium');
     return (
       <>
-        <button
-          aria-label="Menu Button"
-          className="fixed right-2 top-2 z-40 rounded-md bg-orange-500 p-2 ring-offset-gray-800/60 hover:bg-orange-400 focus:outline-none focus:ring-0 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 sm:hidden"
-          onClick={toggleOpen}>
-          <Bars3BottomRightIcon className="h-8 w-8 text-white" />
-          <span className="sr-only">Open sidebar</span>
-        </button>
+        <div className="fixed z-40 flex justify-between">
+          <button
+            aria-label="Menu Button"
+            className="fixed right-2 top-2 z-40 rounded-md bg-orange-500 p-2 ring-offset-gray-800/60 hover:bg-orange-400 focus:outline-none focus:ring-0 focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2 sm:hidden"
+            onClick={toggleOpen}>
+            <Bars3BottomRightIcon className="h-8 w-8 text-white" />
+            <span className="sr-only">Open sidebar</span>
+          </button>
+        </div>
+
         <Transition.Root as={Fragment} show={isOpen}>
           <Dialog as="div" className="fixed inset-0 z-40 flex sm:hidden" onClose={toggleOpen}>
             <Transition.Child
@@ -130,7 +136,8 @@ const NavItem: FC<{
       href={`/#${section}`}
       key={section}
       onClick={onClick}>
-      {section}
+      {/* @ts-ignore */}
+      {SectionIdMap[section]}
     </Link>
   );
 });
