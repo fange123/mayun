@@ -35,7 +35,7 @@ const Buy: FC = memo(() => {
       <div className="mb-6 flex w-full flex-col-reverse rounded-md border border-solid border-white p-2 lg:mb-10 lg:flex-row lg:justify-between">
         <div className="lg:ml-10 lg:mt-10">
           <h3 className="mb-5 mt-5 text-2xl font-bold text-white">使用uniswap</h3>
-          <p className="leading-6 text-white">要进入官方的uniswap，将pogai的合约 地址输入，随后确认签名</p>
+          <p className="leading-6 text-white">要进入官方的uniswap，将马叔的合约地址输入，随后确认签名</p>
         </div>
         <div className="lg:w-50">
           <Image alt="" src={buy3} className="w-full" />
